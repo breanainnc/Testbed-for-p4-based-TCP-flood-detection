@@ -1,0 +1,120 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 37375156
+    name: "MyIngress.ipv4_lpm"
+    alias: "ipv4_lpm"
+  }
+  match_fields {
+    id: 1
+    name: "meta.port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 28792405
+  }
+  action_refs {
+    id: 25652968
+  }
+  action_refs {
+    id: 21257015
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 25652968
+    name: "MyIngress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 28792405
+    name: "MyIngress.ipv4_forward"
+    alias: "ipv4_forward"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+registers {
+  preamble {
+    id: 373260127
+    name: "IPScores"
+    alias: "IPScores"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 4
+      }
+    }
+  }
+  size: 4194304
+}
+registers {
+  preamble {
+    id: 375472619
+    name: "TCPConnectCount"
+    alias: "TCPConnectCount"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 6
+      }
+    }
+  }
+  size: 1
+}
+registers {
+  preamble {
+    id: 369318402
+    name: "AbnormalConnectCount"
+    alias: "AbnormalConnectCount"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 6
+      }
+    }
+  }
+  size: 1
+}
+registers {
+  preamble {
+    id: 375097719
+    name: "AttackFlag"
+    alias: "AttackFlag"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 6
+      }
+    }
+  }
+  size: 1
+}
+type_info {
+}
