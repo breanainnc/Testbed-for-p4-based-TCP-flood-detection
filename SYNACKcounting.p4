@@ -169,7 +169,7 @@ control MyIngress(inout headers hdr,
 		   }    
                 } */
             }
-            if(hdr.tcp.ctrl == ACKFIN && meta.port == 1){
+            if(hdr.tcp.ctrl == ACKFIN){
 		if(meta.port == 1){
                 AttackFlagCount.count(2);
                }
