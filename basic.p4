@@ -12,6 +12,7 @@ const bit<6>  FINPSHACK = 0x19;
 const bit<6>  RST       = 0x04;
 const bit<6>  RSTACK    = 0x14;
 const bit<4>  ScoreMAX  = 0x08;
+const bit<6>  AbnrmlMAX = 0x10;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -194,15 +195,16 @@ control MyIngress(inout headers hdr,
                      if(meta.score != ScoreMAX){
                     	meta.score = meta.score + 1;
                     	IPScores.write(meta.index, meta.score);
-                     if(meta.score == ScoreMAX){
-                        meta.abnormalCount = meta.abnormalCount + 1;
-                        AbnormalConnectCount.write(0, meta.abnormalCount);
+                        
+			if(meta.score == ScoreMAX){
+                            meta.abnormalCount = meta.abnormalCount + 1;
+                            AbnormalConnectCount.write(0, meta.abnormalCount);
                     }
                 }
             	}
 	    }
 	    if(meta.tcpCount > 50){
-		if(meta.abnormalCount > 8){
+		if(meta.abnormalCount > AbnrmlMAX){
 		    meta.attackScore = meta.attackScore + 1;
 		    AttackFlag.write(0, meta.attackScore);
 		}
@@ -212,6 +214,7 @@ control MyIngress(inout headers hdr,
 			AttackFlag.write(0, meta.attackScore);
 		    }
 		}
+		TCPConnectCount.write(0, 0);
 	    }	    
     
         }
