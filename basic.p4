@@ -12,7 +12,7 @@ const bit<6>  FINPSHACK = 0x19;
 const bit<6>  RST       = 0x04;
 const bit<6>  RSTACK    = 0x14;
 const bit<4>  ScoreMAX  = 0x08;
-const bit<6>  AbnrmlMAX = 0x10;
+const bit<6>  AbnrmlMAX = 0x08;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -182,15 +182,15 @@ control MyIngress(inout headers hdr,
                     TCPConnectCount.write(0, meta.tcpCount);
                 }
 
-            	if(hdr.tcp.ctrl == FINACK || hdr.tcp.ctrl == RST || hdr.tcp.ctrl == RSTACK || hdr.tcp.ctrl == FINPSHACK){
-                    IPScores.write(meta.index, 0);
-            	}
-            	else if(hdr.tcp.ctrl == ACK || hdr.tcp.ctrl == PSHACK){
+            	if(hdr.tcp.ctrl == ACK || hdr.tcp.ctrl == PSHACK){
                     if(meta.score != 0){
                     	meta.score = meta.score - 1;
                     	IPScores.write(meta.index, meta.score);
                 	}	
             	}
+		else if(hdr.tcp.ctrl == FINACK || hdr.tcp.ctrl == RST || hdr.tcp.ctrl == RSTACK || hdr.tcp.ctrl == FINPSHACK){
+                    IPScores.write(meta.index, 0);
+                }
             	else{
                      if(meta.score != ScoreMAX){
                     	meta.score = meta.score + 1;
