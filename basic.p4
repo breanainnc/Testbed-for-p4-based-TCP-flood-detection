@@ -215,6 +215,7 @@ control MyIngress(inout headers hdr,
 		    }
 		}
 		TCPConnectCount.write(0, 0);
+		AbnormalConnectCount.write(0,0);
 	    }	    
     
         }
